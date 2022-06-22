@@ -1,0 +1,54 @@
+$lightBlue: #cdefff;
+$background: #2f2f2f;
+$lightGray: #3f3f3f;
+$textBlack: #272727;
+$errorRed: #d32f2f;
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: $lightBlue;
+    color: $textBlack;
+    height: 4rem;
+    padding: 0.5rem 1rem !important;
+    flex-wrap: nowrap !important;
+    .home {
+        cursor: pointer;
+
+        .logo {
+            max-height: 3rem;
+            padding-right: 1rem;
+        }
+    }
+    .circle {
+        height: 3rem;
+        width: 3rem;
+        border-radius: 50%;
+    }
+    .link {
+        margin-left: 1rem;
+    }
+}
+.loading-screen,
+.error-screen {
+    height: 70vh;
+    width: 100vw;
+
+    a {
+        color: $lightBlue;
+        text-decoration: underline;
+        padding-top: 1rem;
+        font-size: 1.2rem;
+    }
+}
+.entry {
+    padding: 0.2rem 0.5rem;
+    width: 18rem;
+    background: $lightGray;
+    &.ingame {
+        border: 1px solid white;
+    }
+    img {
+        width: 2rem;
+    }
+}
