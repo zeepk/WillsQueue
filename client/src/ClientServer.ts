@@ -1,10 +1,11 @@
 import requestWrapper from './utils/requestWrapper';
 import { CreateEntryRequest, UpdateEntryRequest } from './utils/constants';
-const baseUrl = 'http://localhost:8080/api';
+const baseUrl = process.env.REACT_APP_API_URL;
+const apiUrl = `${baseUrl}/api`;
 
 export async function getEntries() {
     const requestOptions = {
-        url: `${baseUrl}/entry`,
+        url: `${apiUrl}/entry`,
         method: 'GET',
     };
     const response = await requestWrapper(requestOptions);
@@ -13,7 +14,7 @@ export async function getEntries() {
 
 export async function createEntry(data: CreateEntryRequest) {
     const requestOptions = {
-        url: `${baseUrl}/entry`,
+        url: `${apiUrl}/entry`,
         method: 'POST',
         data,
     };
@@ -23,7 +24,7 @@ export async function createEntry(data: CreateEntryRequest) {
 
 export async function moveEntry(data: UpdateEntryRequest) {
     const requestOptions = {
-        url: `${baseUrl}/entry`,
+        url: `${apiUrl}/entry`,
         method: 'PUT',
         data,
     };
