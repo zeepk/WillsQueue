@@ -22,12 +22,12 @@ export default function EntryItem({ entry }: props) {
         <div
             className={`entry mb-2 d-flex flex-row ai-center jc-between ${userEntryClass}`}
         >
-            <div className="d-flex flex-row ai-center jc-between">
+            <div className="d-flex flex-row ai-center jc-start">
                 <img src={entry.avatar} alt="avatar" />
                 <h4 className="mr-4">{entry.username}</h4>
             </div>
             {isUserAdmin && (
-                <div className="actions d-flex flex-row ai-center jc-between">
+                <div className="actions d-flex flex-row ai-center jc-end">
                     <Button
                         icon={`pi ${moveIcon}`}
                         className={`p-button-rounded p-button-${moveButtonType} mr-1`}

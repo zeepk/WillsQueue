@@ -41,20 +41,6 @@ $errorRed: #d32f2f;
         font-size: 1.2rem;
     }
 }
-.entry {
-    padding: 0.2rem 0.5rem;
-    width: 18rem;
-    background: $lightGray;
-    border: 2px solid white;
-
-    &.user-entry {
-        border: 4px solid lightGreen;
-    }
-
-    img {
-        width: 2rem;
-    }
-}
 .login-twitch {
     background: #65459b !important;
     border-color: transparent !important;
@@ -67,4 +53,43 @@ $errorRed: #d32f2f;
     img {
         height: 1.5rem;
     }
+}
+.dashboard {
+    background-color: $background;
+    .list-container {
+        margin-top: 5rem;
+        padding: 0 2rem 2rem 2rem;
+        width: 95vw;
+        max-width: 27rem;
+        height: 75vh;
+        max-height: 60rem;
+        border-radius: 0.5rem;
+        border: 1px solid gray;
+        .queue {
+            height: 100%;
+            width: 100%;
+            div {
+                width: 100%;
+            }
+        }
+        .entries-list {
+            width: 100%;
+
+            .entry {
+                padding: 0.2rem 0.5rem;
+                width: 100%;
+                background: $lightGray;
+                border: 2px solid white;
+
+                &.user-entry {
+                    border: 4px solid lightGreen;
+                }
+
+                img {
+                    width: 2rem;
+                }
+            }
+        }
+    }
+    padding-bottom: 5rem;
 }

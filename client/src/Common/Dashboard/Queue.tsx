@@ -12,6 +12,7 @@ type props = {
 
 export default function Queue({ entries, isUserInGame, isUserInQueue }: props) {
     const { isAuthenticated } = useAuth0();
+    const empty = entries.length === 0;
     const cta = isAuthenticated ? (
         <JoinButton isUserInGame={isUserInGame} isUserInQueue={isUserInQueue} />
     ) : (
@@ -19,11 +20,16 @@ export default function Queue({ entries, isUserInGame, isUserInQueue }: props) {
     );
 
     return (
-        <div className="d-flex flex-column ai-center jc-center">
-            <h1>Queue</h1>
-            {entries.map(entry => (
-                <EntryItem entry={entry} />
-            ))}
+        <div className="queue d-flex flex-column ai-center jc-between">
+            <div>
+                <h1>Queue</h1>
+                {empty && <h3 className="mt-6">Nobody's in queue yet!</h3>}
+                <div className="entries-list">
+                    {entries.map(entry => (
+                        <EntryItem entry={entry} />
+                    ))}
+                </div>
+            </div>
             <div className="mt-2">{cta}</div>
         </div>
     );

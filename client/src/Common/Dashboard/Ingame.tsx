@@ -12,9 +12,11 @@ export default function Ingame({ entries }: props) {
     return (
         <div className="d-flex flex-column ai-center jc-center">
             <h1>In-game</h1>
-            {entries.map(entry => (
-                <EntryItem entry={entry} />
-            ))}
+            <div className="entries-list">
+                {entries.map(entry => (
+                    <EntryItem entry={entry} />
+                ))}
+            </div>
         </div>
     );
 }

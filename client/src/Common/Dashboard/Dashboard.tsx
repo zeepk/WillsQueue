@@ -30,15 +30,15 @@ export default function Dashboard() {
         !!user && ingameEntries.some(entry => entry.username === username);
 
     return (
-        <div className="d-flex flex-row ai-start jc-center">
-            <div className="col-container d-flex flex-column ai-center jc-center mr-8">
+        <div className="dashboard d-flex flex-row ai-start jc-around flex-wrap">
+            <div className="list-container">
                 <Queue
                     entries={queueEntries}
                     isUserInGame={isUserInGame}
                     isUserInQueue={isUserInQueue}
                 />
             </div>
-            <div className="col-container d-flex flex-column ai-center jc-center ml-8">
+            <div className="list-container">
                 <Ingame entries={ingameEntries} />
             </div>
         </div>
