@@ -61,13 +61,13 @@ router.post('/api/entry', async (req: Request, res: Response) => {
 });
 
 router.put('/api/entry', async (req: Request, res: Response) => {
-    const { authId, status } = req.body;
+    const { user, status } = req.body;
     const resp: ApiResponse = {
         success: true,
         message: '',
     };
 
-    const validRequest = authId && status;
+    const validRequest = user?.sub && status;
 
     if (!validRequest) {
         const message = 'Request parameters not correctly provided';
@@ -77,7 +77,7 @@ router.put('/api/entry', async (req: Request, res: Response) => {
     }
 
     const entry = await Entry.findOne({
-        authId: authId,
+        authId: user.sub,
         status: { $in: ['queue', 'ingame'] },
     });
     if (!entry) {

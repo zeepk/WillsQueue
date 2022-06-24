@@ -1,5 +1,10 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Entry, isAdmin, getUsernameFromUser } from '../../utils/constants';
+import {
+    Entry,
+    Status,
+    isAdmin,
+    getUsernameFromUser,
+} from '../../utils/constants';
 import { moveEntry } from '../../ClientServer';
 import { Button } from 'primereact/button';
 
@@ -12,16 +17,15 @@ export default function EntryItem({ entry }: props) {
     const isUserAdmin = isAdmin(user);
     const username = getUsernameFromUser(user);
 
-    const userEntryClass = username === entry.username ? 'user-entry' : '';
-    const moveIcon =
-        entry.status === 'queue'
-            ? 'pi-angle-double-right'
-            : 'pi-angle-double-left';
-    const moveButtonType = entry.status === 'queue' ? 'success' : 'warning';
+    const isQueueEntry = entry.status === 'queue';
 
-    const handleMove = () => {
-        moveEntry(user, entry.status === 'queue' ? 'ingame' : 'queue');
-    };
+    const userEntryClass = username === entry.username ? 'user-entry' : '';
+    const moveIcon = isQueueEntry
+        ? 'pi-angle-double-right'
+        : 'pi-angle-double-left';
+    const moveButtonType = isQueueEntry ? 'success' : 'warning';
+
+    const handleMove = (status: Status) => moveEntry({ user, status });
 
     return (
         <div
@@ -36,10 +40,14 @@ export default function EntryItem({ entry }: props) {
                     <Button
                         icon={`pi ${moveIcon}`}
                         className={`p-button-rounded p-button-${moveButtonType} mr-1`}
+                        onClick={() =>
+                            handleMove(isQueueEntry ? 'ingame' : 'queue')
+                        }
                     />
                     <Button
                         icon="pi pi-trash"
                         className="p-button-rounded p-button-outlined p-button-danger ml-1"
+                        onClick={() => handleMove('archived')}
                     />
                 </div>
             )}
