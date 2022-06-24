@@ -7,6 +7,10 @@ import {
 } from '../../utils/constants';
 import { moveEntry } from '../../ClientServer';
 import { Button } from 'primereact/button';
+import { io } from 'socket.io-client';
+const socket = io(process.env.REACT_APP_API_URL || '', {
+    transports: ['websocket'],
+});
 
 type props = {
     entry: Entry;
@@ -25,7 +29,10 @@ export default function EntryItem({ entry }: props) {
         : 'pi-angle-double-left';
     const moveButtonType = isQueueEntry ? 'success' : 'warning';
 
-    const handleMove = (status: Status) => moveEntry({ user, status });
+    const handleMove = async (status: Status) => {
+        await moveEntry({ user, status, username: entry.username });
+        socket.emit('move-entry');
+    };
 
     return (
         <div

@@ -5,6 +5,10 @@ import { getEntries } from '../../ClientServer';
 import { Entry, getUsernameFromUser } from '../../utils/constants';
 import Queue from './Queue';
 import Ingame from './Ingame';
+import { io } from 'socket.io-client';
+const socket = io(process.env.REACT_APP_API_URL || '', {
+    transports: ['websocket'],
+});
 
 export default function Dashboard() {
     const { user, isLoading } = useAuth0();
@@ -14,18 +18,17 @@ export default function Dashboard() {
     const loading = isLoading || !entries;
 
     useEffect(() => {
-        getEntries().then(({ data }) =>
-            setEntries([
-                ...data,
-                ...data,
-                ...data,
-                ...data,
-                ...data,
-                ...data,
-                ...data,
-            ])
-        );
+        getEntries().then(({ data }) => setEntries(data));
     }, [user]);
+
+    useEffect(() => {
+        socket.on('fetch-entries', result => {
+            getEntries().then(({ data }) => setEntries(data));
+            return function cleanup() {
+                socket.off('fetch-entries');
+            };
+        });
+    }, []);
 
     if (loading || !entries) {
         return <LoadingScreen />;

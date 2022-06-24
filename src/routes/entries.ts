@@ -61,7 +61,7 @@ router.post('/api/entry', async (req: Request, res: Response) => {
 });
 
 router.put('/api/entry', async (req: Request, res: Response) => {
-    const { user, status } = req.body;
+    const { user, status, username } = req.body;
     const adminRole = process.env.ADMIN_ROLE || '';
     const resp: ApiResponse = {
         success: true,
@@ -87,7 +87,7 @@ router.put('/api/entry', async (req: Request, res: Response) => {
     }
 
     const entry = await Entry.findOne({
-        authId: user.sub,
+        username,
         status: { $in: ['queue', 'ingame'] },
     });
     if (!entry) {

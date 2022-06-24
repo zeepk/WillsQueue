@@ -18,6 +18,7 @@ export type CreateEntryRequest = {
 export type UpdateEntryRequest = {
     user: any;
     status: Status;
+    username: string;
 };
 
 export const userUsername = 'https://willsqueue.com/username';

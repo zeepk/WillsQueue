@@ -6,6 +6,8 @@ import { json } from 'body-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { entryRouter } from './src/routes/entries';
+import { Server } from 'socket.io';
+import http from 'http';
 dotenv.config();
 
 const connectionString = process.env.MONGO_DB_CONN_STRING;
@@ -16,7 +18,6 @@ if (connectionString) {
 const app = express();
 
 const allowedOrigins = [process.env.REACT_APP_BASE_URL, process.env.API_URL];
-
 const getCORSOrigin = (origin, callback) => {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
@@ -33,14 +34,30 @@ app.use(cors({ origin: getCORSOrigin, credentials: true }));
 
 app.use(entryRouter);
 
+// socket.io
+const server = http.createServer(app);
+const io = new Server(server);
+
+io.on('connection', socket => {
+    socket.on('move-entry', () => {
+        io.emit('fetch-entries');
+    });
+});
+
 app.get('/api/test', (req, res) => {
     res.send('ok');
 });
 
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-});
+// app.get('/*', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+// });
 
-app.listen(process.env.PORT || 8080, () => {
-    console.log('The application is listening on port 8080!');
+const port = process.env.PORT || 8080;
+
+// app.listen(port, () => {
+//     console.log(`The application is listening on port ${port}!`);
+// });
+
+server.listen(port, () => {
+    console.log(`Socket.IO server running at http://localhost:${port}/`);
 });
