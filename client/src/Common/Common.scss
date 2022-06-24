@@ -14,19 +14,19 @@ $errorRed: #d32f2f;
     flex-wrap: nowrap !important;
     .home {
         cursor: pointer;
+        h1 {
+            font-size: clamp(1.5rem, 2vw, 2.5rem);
+        }
 
         .logo {
             max-height: 3rem;
-            padding-right: 1rem;
+            padding-right: clamp(0rem, 2vw, 2rem);
         }
     }
     .circle {
         height: 3rem;
         width: 3rem;
         border-radius: 50%;
-    }
-    .link {
-        margin-left: 1rem;
     }
 }
 .loading-screen,
