@@ -62,10 +62,20 @@ router.post('/api/entry', async (req: Request, res: Response) => {
 
 router.put('/api/entry', async (req: Request, res: Response) => {
     const { user, status } = req.body;
+    const adminRole = process.env.ADMIN_ROLE || '';
     const resp: ApiResponse = {
         success: true,
         message: '',
     };
+
+    const isAdmin = user['https://willsqueue/roles']?.includes(adminRole);
+
+    if (!isAdmin) {
+        const message = 'User does not have permission to update this entry';
+        resp.message = message;
+        console.error(message);
+        return res.status(400).send(resp);
+    }
 
     const validRequest = user?.sub && status;
 
