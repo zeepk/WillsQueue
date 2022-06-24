@@ -14,7 +14,17 @@ export default function Dashboard() {
     const loading = isLoading || !entries;
 
     useEffect(() => {
-        getEntries().then(({ data }) => setEntries(data));
+        getEntries().then(({ data }) =>
+            setEntries([
+                ...data,
+                ...data,
+                ...data,
+                ...data,
+                ...data,
+                ...data,
+                ...data,
+            ])
+        );
     }, [user]);
 
     if (loading || !entries) {

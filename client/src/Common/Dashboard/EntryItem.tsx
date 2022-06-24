@@ -33,7 +33,7 @@ export default function EntryItem({ entry }: props) {
         >
             <div className="d-flex flex-row ai-center jc-start">
                 <img src={entry.avatar} alt="avatar" />
-                <h4 className="mr-4">{entry.username}</h4>
+                <h4 className="ml-2">{entry.username}</h4>
             </div>
             {isUserAdmin && (
                 <div className="actions d-flex flex-row ai-center jc-end">

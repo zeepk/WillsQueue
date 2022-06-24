@@ -56,37 +56,49 @@ $errorRed: #d32f2f;
 }
 .dashboard {
     background-color: $background;
-    .list-container {
+    > div {
         margin-top: 5rem;
-        padding: 0 2rem 2rem 2rem;
+    }
+    .list-container {
         width: 95vw;
         max-width: 27rem;
         height: 75vh;
         max-height: 60rem;
-        border-radius: 0.5rem;
-        border: 1px solid gray;
-        .queue {
+        .list {
             height: 100%;
             width: 100%;
-            div {
+            .list-title-container {
+                height: 100%;
                 width: 100%;
-            }
-        }
-        .entries-list {
-            width: 100%;
+                border-radius: 0.5rem;
+                border: 1px solid gray;
 
-            .entry {
-                padding: 0.2rem 0.5rem;
-                width: 100%;
-                background: $lightGray;
-                border: 2px solid white;
-
-                &.user-entry {
-                    border: 4px solid lightGreen;
+                &.in-game {
+                    height: 70%;
                 }
 
-                img {
-                    width: 2rem;
+                .list-title {
+                    height: 6rem;
+                }
+                .entries-list {
+                    height: calc(100% - 6rem);
+                    width: 100%;
+                    overflow-y: scroll;
+
+                    .entry {
+                        padding: 0.2rem 0.5rem;
+                        width: 100%;
+                        background: $lightGray;
+                        border: 2px solid white;
+
+                        &.user-entry {
+                            border: 4px solid lightGreen;
+                        }
+
+                        img {
+                            width: 2rem;
+                        }
+                    }
                 }
             }
         }
