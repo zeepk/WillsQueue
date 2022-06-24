@@ -14,7 +14,7 @@ ReactDOM.render(
     <Auth0Provider
         domain={process.env.REACT_APP_AUTH_DOMAIN || ''}
         clientId={process.env.REACT_APP_AUTH_ID || ''}
-        redirectUri={process.env.REACT_APP_API_URL || ''}
+        redirectUri={process.env.REACT_APP_BASE_URL || ''}
     >
         <React.StrictMode>
             <App />
