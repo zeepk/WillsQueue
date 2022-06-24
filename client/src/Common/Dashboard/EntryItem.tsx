@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Entry, isAdmin, getUsernameFromUser } from '../../utils/constants';
+import { moveEntry } from '../../ClientServer';
 import { Button } from 'primereact/button';
 
 type props = {
@@ -17,6 +18,10 @@ export default function EntryItem({ entry }: props) {
             ? 'pi-angle-double-right'
             : 'pi-angle-double-left';
     const moveButtonType = entry.status === 'queue' ? 'success' : 'warning';
+
+    const handleMove = () => {
+        moveEntry(user, entry.status === 'queue' ? 'ingame' : 'queue');
+    };
 
     return (
         <div
