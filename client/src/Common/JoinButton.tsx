@@ -2,6 +2,10 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from 'primereact/button';
 import { createEntry } from '../ClientServer';
 import { getUsernameFromUser } from '../utils/constants';
+import { io } from 'socket.io-client';
+const socket = io(process.env.REACT_APP_API_URL || '', {
+    transports: ['websocket'],
+});
 
 type props = {
     isUserInGame: boolean;
@@ -12,11 +16,12 @@ export default function JoinButton({ isUserInGame, isUserInQueue }: props) {
 
     const username = getUsernameFromUser(user);
 
-    const handleJoin = () => {
+    const handleJoin = async () => {
         if (!user || !user.sub || !user.picture) {
             return;
         }
-        createEntry({ authId: user.sub, username, avatar: user.picture });
+        await createEntry({ authId: user.sub, username, avatar: user.picture });
+        socket.emit('move-entry');
     };
 
     const canJoin = !isUserInGame && !isUserInQueue;

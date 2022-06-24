@@ -69,8 +69,9 @@ router.put('/api/entry', async (req: Request, res: Response) => {
     };
 
     const isAdmin = user['https://willsqueue/roles']?.includes(adminRole);
+    const isOwnDelete = user['https://willsqueue.com/username'] === username;
 
-    if (!isAdmin) {
+    if (!isAdmin && !isOwnDelete) {
         const message = 'User does not have permission to update this entry';
         resp.message = message;
         console.error(message);
@@ -86,10 +87,16 @@ router.put('/api/entry', async (req: Request, res: Response) => {
         return res.status(500).send(resp);
     }
 
-    const entry = await Entry.findOne({
-        username,
-        status: { $in: ['queue', 'ingame'] },
-    });
+    const entry = !isOwnDelete
+        ? await Entry.findOne({
+              username,
+              status: { $in: ['queue', 'ingame'] },
+          })
+        : await Entry.findOne({
+              authId: user.sub,
+              status: { $in: ['queue', 'ingame'] },
+          });
+
     if (!entry) {
         // not logged in
         const message = 'No entry for this user exists';

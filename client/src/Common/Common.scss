@@ -1,4 +1,4 @@
-$lightBlue: #cdefff;
+$lightBlue: #c0fbf9;
 $background: #2f2f2f;
 $lightGray: #3f3f3f;
 $textBlack: #272727;
@@ -7,7 +7,7 @@ $errorRed: #d32f2f;
 .toolbar {
     display: flex;
     justify-content: space-between;
-    background-color: $lightBlue;
+    background: $lightBlue !important;
     color: $textBlack;
     height: 4rem;
     padding: 0.5rem 1rem !important;
@@ -88,6 +88,7 @@ $errorRed: #d32f2f;
                     .entry {
                         padding: 0.2rem 0.5rem;
                         width: 100%;
+                        border-radius: 0.5rem;
                         background: $lightGray;
                         border: 2px solid white;
 

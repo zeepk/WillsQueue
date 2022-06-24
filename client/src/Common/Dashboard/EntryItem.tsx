@@ -20,6 +20,9 @@ export default function EntryItem({ entry }: props) {
     const { user } = useAuth0();
     const isUserAdmin = isAdmin(user);
     const username = getUsernameFromUser(user);
+    const isCurrentUser = entry.username === username;
+
+    const canDelete = isUserAdmin || isCurrentUser;
 
     const isQueueEntry = entry.status === 'queue';
 
@@ -36,14 +39,14 @@ export default function EntryItem({ entry }: props) {
 
     return (
         <div
-            className={`entry mb-2 d-flex flex-row ai-center jc-between ${userEntryClass}`}
+            className={`entry mb-3 d-flex flex-row ai-center jc-between ${userEntryClass}`}
         >
             <div className="d-flex flex-row ai-center jc-start">
                 <img src={entry.avatar} alt="avatar" />
                 <h4 className="ml-2">{entry.username}</h4>
             </div>
-            {isUserAdmin && (
-                <div className="actions d-flex flex-row ai-center jc-end">
+            <div className="actions d-flex flex-row ai-center jc-end">
+                {isUserAdmin && (
                     <Button
                         icon={`pi ${moveIcon}`}
                         className={`p-button-rounded p-button-${moveButtonType} mr-1`}
@@ -51,13 +54,15 @@ export default function EntryItem({ entry }: props) {
                             handleMove(isQueueEntry ? 'ingame' : 'queue')
                         }
                     />
+                )}
+                {canDelete && (
                     <Button
                         icon="pi pi-trash"
                         className="p-button-rounded p-button-outlined p-button-danger ml-1"
                         onClick={() => handleMove('archived')}
                     />
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 }

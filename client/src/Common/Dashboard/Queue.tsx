@@ -23,12 +23,17 @@ export default function Queue({ entries, isUserInGame, isUserInQueue }: props) {
         <div className="list pb-2 d-flex flex-column ai-center jc-between">
             <div className="list-title-container">
                 <h1 className="list-title m-0 pt-2">Queue</h1>
-                {empty && <h3 className="mt-6">Nobody's in queue yet!</h3>}
-                <div className="px-3 entries-list">
-                    {entries.map(entry => (
-                        <EntryItem entry={entry} />
-                    ))}
-                </div>
+                {empty ? (
+                    <h3 className="mt-6">Nobody's in queue yet!</h3>
+                ) : (
+                    <div className="px-3 entries-list">
+                        {entries.map(entry => (
+                            <div key={entry.createdAt}>
+                                <EntryItem entry={entry} />
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
             <div className="mt-3">{cta}</div>
         </div>
