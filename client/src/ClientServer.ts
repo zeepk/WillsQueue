@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 const baseUrl = process.env.REACT_APP_API_URL;
 const apiUrl = `${baseUrl}/api`;
 
-export async function getEntries(accessToken: any) {
+export async function getEntries() {
     const requestOptions = {
         url: `${apiUrl}/entry`,
         method: 'GET',

@@ -11,23 +11,19 @@ const socket = io(process.env.REACT_APP_API_URL || '', {
 });
 
 export default function Dashboard() {
-    const { user, isLoading, getAccessTokenSilently } = useAuth0();
+    const { user, isLoading } = useAuth0();
     const [entries, setEntries] = useState<null | Entry[]>(null);
     const username = getUsernameFromUser(user);
 
     const loading = isLoading || !entries;
 
     useEffect(() => {
-        getAccessTokenSilently({
-            scope: 'openid profile email',
-        }).then(async accessToken => {
-            getEntries(accessToken).then(({ data }) => setEntries(data));
-        });
-    }, [user, getAccessTokenSilently]);
+        getEntries().then(({ data }) => setEntries(data));
+    }, [user]);
 
     useEffect(() => {
         socket.on('fetch-entries', result => {
-            getEntries('').then(({ data }) => setEntries(data));
+            getEntries().then(({ data }) => setEntries(data));
             return function cleanup() {
                 socket.off('fetch-entries');
             };
