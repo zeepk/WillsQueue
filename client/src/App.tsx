@@ -6,13 +6,8 @@ import Dashboard from './Common/Dashboard/Dashboard';
 import LoadingScreen from './Common/LoadingScreen';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ReactGA from 'react-ga';
-ReactGA.initialize('G-64D995T32R');
-// ReactGA.initialize('UA-000000-01');
+ReactGA.initialize('UA-232886306-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
-// import ReactGA from 'react-ga4';
-
-// ReactGA.initialize('G-64D995T32R');
-// ReactGA.send('pageview');
 
 function App() {
     const { isLoading } = useAuth0();
