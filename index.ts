@@ -17,7 +17,10 @@ if (connectionString) {
 
 const app = express();
 
-const allowedOrigins = [process.env.REACT_APP_BASE_URL, process.env.API_URL];
+const allowedOrigins = [
+    process.env.REACT_APP_BASE_URL,
+    process.env.REACT_APP_API_URL,
+];
 const getCORSOrigin = (origin, callback) => {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);

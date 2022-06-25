@@ -1,9 +1,25 @@
 import express, { Request, Response } from 'express';
 import { Entry } from '../models/entry';
 import { ApiResponse } from '../utils/customTypes';
+import dotenv from 'dotenv';
+dotenv.config();
+/* eslint-disable */
+const { expressjwt } = require('express-jwt');
+const jwksRsa = require('jwks-rsa');
+const checkJwt = expressjwt({
+    secret: jwksRsa.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 100,
+        jwksUri: `${process.env.REACT_APP_AUTH0_DOMAIN}.well-known/jwks.json`,
+    }),
+
+    issuer: process.env.REACT_APP_AUTH0_DOMAIN,
+    algorithms: ['RS256'],
+});
 const router = express.Router();
 
-router.get('/api/entry', async (req: Request, res: Response) => {
+router.get('/api/entry', async (req: any, res: any) => {
     const resp: ApiResponse = {
         success: true,
         message: '',
@@ -19,7 +35,7 @@ router.get('/api/entry', async (req: Request, res: Response) => {
     return res.status(200).send(resp);
 });
 
-router.post('/api/entry', async (req: Request, res: Response) => {
+router.post('/api/entry', checkJwt, async (req: Request, res: Response) => {
     const { authId, username, avatar } = req.body;
     const resp: ApiResponse = {
         success: true,
@@ -60,7 +76,7 @@ router.post('/api/entry', async (req: Request, res: Response) => {
     return res.status(200).send(resp);
 });
 
-router.put('/api/entry', async (req: Request, res: Response) => {
+router.put('/api/entry', checkJwt, async (req: Request, res: Response) => {
     const { user, status, username } = req.body;
     const adminRole = process.env.ADMIN_ROLE || '';
     const resp: ApiResponse = {

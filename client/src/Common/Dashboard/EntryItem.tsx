@@ -17,7 +17,7 @@ type props = {
 };
 
 export default function EntryItem({ entry }: props) {
-    const { user } = useAuth0();
+    const { user, getAccessTokenSilently } = useAuth0();
     const isUserAdmin = isAdmin(user);
     const username = getUsernameFromUser(user);
     const isCurrentUser = entry.username === username;
@@ -33,8 +33,16 @@ export default function EntryItem({ entry }: props) {
     const moveButtonType = isQueueEntry ? 'success' : 'warning';
 
     const handleMove = async (status: Status) => {
-        await moveEntry({ user, status, username: entry.username });
-        socket.emit('move-entry');
+        getAccessTokenSilently({
+            scope: 'openid profile email',
+        }).then(async accessToken => {
+            await moveEntry(accessToken, {
+                user,
+                status,
+                username: entry.username,
+            });
+            socket.emit('move-entry');
+        });
     };
 
     return (

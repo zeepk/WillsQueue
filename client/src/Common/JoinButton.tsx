@@ -12,7 +12,7 @@ type props = {
     isUserInQueue: boolean;
 };
 export default function JoinButton({ isUserInGame, isUserInQueue }: props) {
-    const { user } = useAuth0();
+    const { user, getAccessTokenSilently } = useAuth0();
 
     const username = getUsernameFromUser(user);
 
@@ -20,8 +20,16 @@ export default function JoinButton({ isUserInGame, isUserInQueue }: props) {
         if (!user || !user.sub || !user.picture) {
             return;
         }
-        await createEntry({ authId: user.sub, username, avatar: user.picture });
-        socket.emit('move-entry');
+        getAccessTokenSilently({
+            scope: 'openid profile email',
+        }).then(async accessToken => {
+            await createEntry(accessToken, {
+                authId: String(user.sub),
+                username,
+                avatar: String(user.picture),
+            });
+            socket.emit('move-entry');
+        });
     };
 
     const canJoin = !isUserInGame && !isUserInQueue;
