@@ -11,10 +11,10 @@ const checkJwt = expressjwt({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 100,
-        jwksUri: `${process.env.REACT_APP_AUTH0_DOMAIN}.well-known/jwks.json`,
+        jwksUri: `https://${process.env.REACT_APP_AUTH0_DOMAIN}/.well-known/jwks.json`,
     }),
 
-    issuer: process.env.REACT_APP_AUTH0_DOMAIN,
+    issuer: `https://${process.env.REACT_APP_AUTH0_DOMAIN}/`,
     algorithms: ['RS256'],
 });
 const router = express.Router();
