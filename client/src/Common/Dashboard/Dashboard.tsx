@@ -18,12 +18,28 @@ export default function Dashboard() {
     const loading = isLoading || !entries;
 
     useEffect(() => {
-        getEntries().then(({ data }) => setEntries(data));
+        getEntries().then(({ data }) =>
+            setEntries(
+                data.sort(
+                    (a: Entry, b: Entry) =>
+                        new Date(a.createdAt).getTime() -
+                        new Date(b.createdAt).getTime()
+                )
+            )
+        );
     }, [user]);
 
     useEffect(() => {
-        socket.on('fetch-entries', result => {
-            getEntries().then(({ data }) => setEntries(data));
+        socket.on('fetch-entries', () => {
+            getEntries().then(({ data }) =>
+                setEntries(
+                    data.sort(
+                        (a: Entry, b: Entry) =>
+                            new Date(a.createdAt).getTime() -
+                            new Date(b.createdAt).getTime()
+                    )
+                )
+            );
             return function cleanup() {
                 socket.off('fetch-entries');
             };

@@ -1,6 +1,5 @@
 import requestWrapper from './utils/requestWrapper';
 import { CreateEntryRequest, UpdateEntryRequest } from './utils/constants';
-import { useAuth0 } from '@auth0/auth0-react';
 const baseUrl = process.env.REACT_APP_API_URL;
 const apiUrl = `${baseUrl}/api`;
 

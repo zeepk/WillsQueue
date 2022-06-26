@@ -89,6 +89,7 @@ router.put('/api/entry', checkJwt, async (req: Request, res: Response) => {
 
     if (!isAdmin && !isOwnDelete) {
         const message = 'User does not have permission to update this entry';
+        resp.success = false;
         resp.message = message;
         console.error(message);
         return res.status(400).send(resp);
@@ -98,6 +99,7 @@ router.put('/api/entry', checkJwt, async (req: Request, res: Response) => {
 
     if (!validRequest) {
         const message = 'Request parameters not correctly provided';
+        resp.success = false;
         resp.message = message;
         console.error(message);
         return res.status(500).send(resp);
