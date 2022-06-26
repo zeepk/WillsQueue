@@ -28,6 +28,10 @@ $errorRed: #d32f2f;
         width: 3rem;
         border-radius: 50%;
     }
+    .p-button.logout {
+        padding: 0;
+        width: 5rem;
+    }
 }
 .loading-screen,
 .error-screen {

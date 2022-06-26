@@ -23,7 +23,11 @@ export default function CustomNavbar() {
         <div className="d-flex">
             <img src={user?.picture} alt="user" className="circle" />
             <h3 className="mx-2 my-auto">{usernameString}</h3>
-            <Button label="Logout" onClick={() => logout()} />
+            <Button
+                className="logout"
+                label="Logout"
+                onClick={() => logout()}
+            />
         </div>
     );
 

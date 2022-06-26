@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import {
     Entry,
@@ -7,6 +8,7 @@ import {
 } from '../../utils/constants';
 import { moveEntry } from '../../ClientServer';
 import { Button } from 'primereact/button';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { io } from 'socket.io-client';
 const socket = io(process.env.REACT_APP_API_URL || '', {
     transports: ['websocket'],
@@ -18,6 +20,8 @@ type props = {
 
 export default function EntryItem({ entry }: props) {
     const { user, getAccessTokenSilently } = useAuth0();
+    const [moveLoading, setMoveLoading] = useState(false);
+    const [deleteLoading, setDeleteLoading] = useState(false);
     const isUserAdmin = isAdmin(user);
     const username = getUsernameFromUser(user);
     const isCurrentUser = entry.username === username;
@@ -33,16 +37,18 @@ export default function EntryItem({ entry }: props) {
     const moveButtonType = isQueueEntry ? 'success' : 'warning';
 
     const handleMove = async (status: Status) => {
-        getAccessTokenSilently({
+        status === 'archived' ? setDeleteLoading(true) : setMoveLoading(true);
+        const accessToken = await getAccessTokenSilently({
             scope: 'openid profile email',
-        }).then(async accessToken => {
-            await moveEntry(accessToken, {
-                user,
-                status,
-                username: entry.username,
-            });
-            socket.emit('move-entry');
         });
+        await moveEntry(accessToken, {
+            user,
+            status,
+            username: entry.username,
+        });
+        socket.emit('move-entry');
+        setMoveLoading(false);
+        setDeleteLoading(false);
     };
 
     return (
@@ -55,20 +61,28 @@ export default function EntryItem({ entry }: props) {
             </div>
             <div className="actions d-flex flex-row ai-center jc-end">
                 {isUserAdmin && (
-                    <Button
-                        icon={`pi ${moveIcon}`}
-                        className={`p-button-rounded p-button-${moveButtonType} mr-1`}
-                        onClick={() =>
-                            handleMove(isQueueEntry ? 'ingame' : 'queue')
-                        }
-                    />
+                    <div className="action-button-container">
+                        <Button
+                            icon={`pi ${moveIcon}`}
+                            className={`p-button-rounded p-button-${moveButtonType} mr-1`}
+                            onClick={() =>
+                                handleMove(isQueueEntry ? 'ingame' : 'queue')
+                            }
+                        />
+                    </div>
                 )}
                 {canDelete && (
-                    <Button
-                        icon="pi pi-trash"
-                        className="p-button-rounded p-button-outlined p-button-danger ml-1"
-                        onClick={() => handleMove('archived')}
-                    />
+                    <div className="action-button-container">
+                        {deleteLoading ? (
+                            <ProgressSpinner />
+                        ) : (
+                            <Button
+                                icon="pi pi-trash"
+                                className="p-button-rounded p-button-outlined p-button-danger ml-1"
+                                onClick={() => handleMove('archived')}
+                            />
+                        )}
+                    </div>
                 )}
             </div>
         </div>
