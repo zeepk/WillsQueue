@@ -37,3 +37,19 @@ export async function moveEntry(accessToken, data: UpdateEntryRequest) {
     const response = await requestWrapper(requestOptions);
     return response.data;
 }
+
+export async function clearList(
+    accessToken,
+    data: { user: any; status: string }
+) {
+    const requestOptions = {
+        url: `${apiUrl}/clear`,
+        method: 'PUT',
+        data,
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    };
+    const response = await requestWrapper(requestOptions);
+    return response.data;
+}

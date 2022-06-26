@@ -81,6 +81,12 @@ circle {
         max-width: 27rem;
         height: 75vh;
         max-height: 60rem;
+        position: relative;
+        .clear {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+        }
         .list {
             height: 100%;
             width: 100%;

@@ -131,4 +131,48 @@ router.put('/api/entry', checkJwt, async (req: Request, res: Response) => {
     return res.status(200).send(resp);
 });
 
+router.put('/api/clear', checkJwt, async (req: Request, res: Response) => {
+    const { user, status } = req.body;
+    const adminRole = process.env.ADMIN_ROLE || '';
+    const resp: ApiResponse = {
+        success: true,
+        message: '',
+    };
+
+    const isAdmin = user['https://willsqueue/roles']?.includes(adminRole);
+
+    if (!isAdmin) {
+        const message = 'User does not have permission to update this entry';
+        resp.success = false;
+        resp.message = message;
+        console.error(message);
+        return res.status(400).send(resp);
+    }
+
+    const validRequest = user?.sub && status;
+
+    if (!validRequest) {
+        const message = 'Request parameters not correctly provided';
+        resp.success = false;
+        resp.message = message;
+        console.error(message);
+        return res.status(500).send(resp);
+    }
+
+    const entries = await Entry.updateMany(
+        {
+            status: status,
+        },
+        {
+            $set: {
+                status: 'archived',
+            },
+        }
+    );
+
+    resp.data = entries;
+
+    return res.status(200).send(resp);
+});
+
 export { router as entryRouter };
