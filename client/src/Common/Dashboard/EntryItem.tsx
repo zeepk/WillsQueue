@@ -73,15 +73,11 @@ export default function EntryItem({ entry }: props) {
                 )}
                 {canDelete && (
                     <div className="action-button-container">
-                        {deleteLoading ? (
-                            <ProgressSpinner />
-                        ) : (
-                            <Button
-                                icon="pi pi-trash"
-                                className="p-button-rounded p-button-outlined p-button-danger ml-1"
-                                onClick={() => handleMove('archived')}
-                            />
-                        )}
+                        <Button
+                            icon="pi pi-trash"
+                            className="p-button-rounded p-button-outlined p-button-danger ml-1"
+                            onClick={() => handleMove('archived')}
+                        />
                     </div>
                 )}
             </div>
