@@ -15,7 +15,7 @@ export default function Ingame({ entries }: props) {
                 <h1 className="list-title m-0 pt-2">In-game</h1>
                 <div className="px-3 entries-list">
                     {entries.map(entry => (
-                        <div key={entry.createdAt}>
+                        <div key={entry.username}>
                             <EntryItem entry={entry} />
                         </div>
                     ))}

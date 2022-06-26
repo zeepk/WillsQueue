@@ -28,7 +28,7 @@ export default function Queue({ entries, isUserInGame, isUserInQueue }: props) {
                 ) : (
                     <div className="px-3 entries-list">
                         {entries.map(entry => (
-                            <div key={entry.createdAt}>
+                            <div key={entry.username}>
                                 <EntryItem entry={entry} />
                             </div>
                         ))}
