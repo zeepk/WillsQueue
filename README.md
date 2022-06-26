@@ -1,5 +1,5 @@
 # Will's Queue App
-[![Heroku](https://heroku-badge.herokuapp.com/?app=willsqueue)]
+![Heroku](https://pyheroku-badge.herokuapp.com/?app=willsqueue)
 ## Small webapp that lets [WillShayhan viewers](https://www.twitch.tv/willshayhan) queue up to join into games on stream!
 
 Users can login with Twitch to join the queue, which updates all sessions with sockets.
