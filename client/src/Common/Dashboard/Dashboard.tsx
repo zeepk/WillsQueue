@@ -2,7 +2,12 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useEffect, useState } from 'react';
 import LoadingScreen from '../../Common/LoadingScreen';
 import { getEntries, clearList } from '../../ClientServer';
-import { Entry, Status, getUsernameFromUser } from '../../utils/constants';
+import {
+    Entry,
+    Status,
+    getUsernameFromUser,
+    isAdmin,
+} from '../../utils/constants';
 import Queue from './Queue';
 import Ingame from './Ingame';
 import { Button } from 'primereact/button';
@@ -87,8 +92,7 @@ export default function Dashboard() {
     const queueEntries = entries.filter(entry => entry.status === 'queue');
     const ingameEntries = entries.filter(entry => entry.status === 'ingame');
 
-    const showClearQueue = queueEntries.length > 0;
-    const showClearIngame = ingameEntries.length > 0;
+    const showClearIngame = isAdmin(user) && ingameEntries.length > 0;
 
     const isUserInQueue =
         !!user && queueEntries.some(entry => entry.username === username);
@@ -96,29 +100,21 @@ export default function Dashboard() {
         !!user && ingameEntries.some(entry => entry.username === username);
 
     return (
-        <div className="dashboard d-flex flex-row ai-start jc-around flex-wrap">
+        <div className="dashboard d-flex flex-row ai-start jc-around flex-wrap pt-6">
             <ConfirmDialog />
             <div className="list-container">
-                {showClearQueue && (
-                    <Button
-                        icon="pi pi-power-off"
-                        className="clear p-button-rounded p-button-outlined p-button-danger"
-                        onClick={() => handleConfirm('queue')}
-                        tooltip="Clear the entire queue"
-                        tooltipOptions={{ position: 'top' }}
-                    />
-                )}
                 <Queue
                     entries={queueEntries}
                     isUserInGame={isUserInGame}
                     isUserInQueue={isUserInQueue}
+                    handleClearList={() => handleConfirm('queue')}
                 />
             </div>
             <div className="list-container">
                 {showClearIngame && (
                     <Button
                         icon="pi pi-power-off"
-                        className="clear p-button-rounded p-button-outlined p-button-danger"
+                        className="clear p-button-rounded p-button-text p-button-danger"
                         onClick={() => handleConfirm('ingame')}
                         tooltip="Clear the entire in-game list"
                         tooltipOptions={{ position: 'top' }}

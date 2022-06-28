@@ -3,7 +3,10 @@ import { useState } from 'react';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { createEntry } from '../ClientServer';
-import { getUsernameFromUser } from '../utils/constants';
+import {
+    getUsernameFromUser,
+    getFriendlyQueuePosition,
+} from '../utils/constants';
 import { io } from 'socket.io-client';
 const socket = io(process.env.REACT_APP_API_URL || '', {
     transports: ['websocket'],
@@ -12,8 +15,13 @@ const socket = io(process.env.REACT_APP_API_URL || '', {
 type props = {
     isUserInGame: boolean;
     isUserInQueue: boolean;
+    userPlaceInQueue: number;
 };
-export default function JoinButton({ isUserInGame, isUserInQueue }: props) {
+export default function JoinButton({
+    isUserInGame,
+    isUserInQueue,
+    userPlaceInQueue,
+}: props) {
     const { user, getAccessTokenSilently } = useAuth0();
     const [loading, setLoading] = useState(false);
 
@@ -39,7 +47,7 @@ export default function JoinButton({ isUserInGame, isUserInQueue }: props) {
     const canJoin = !isUserInGame && !isUserInQueue;
     const cannotJoinButtonLabel = isUserInGame
         ? "You're in game!"
-        : "You're in queue!";
+        : `You're ${getFriendlyQueuePosition(userPlaceInQueue)} in queue!`;
     const joinButtonLabel = canJoin ? 'Join queue' : cannotJoinButtonLabel;
 
     const icon = canJoin ? 'pi-sign-in' : 'pi pi-ellipsis-h';
