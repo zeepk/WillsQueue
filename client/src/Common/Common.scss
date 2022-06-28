@@ -73,6 +73,7 @@ circle {
     }
 }
 .dashboard {
+    background-color: inherit;
     > div {
         margin-top: 5rem;
     }
@@ -81,6 +82,13 @@ circle {
         max-width: 27rem;
         height: 75vh;
         max-height: 60rem;
+        position: relative;
+        .clear {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            z-index: 1;
+        }
         .list {
             height: 100%;
             width: 100%;
@@ -91,6 +99,7 @@ circle {
                 border-radius: 0.5rem;
                 border: 1px solid gray;
                 background-color: $lightGray;
+                position: relative;
 
                 &.in-game {
                     height: 70%;
@@ -140,4 +149,8 @@ circle {
     0% {
         stroke: white !important;
     }
+}
+.p-dialog {
+    width: 30rem;
+    max-width: 95vw;
 }

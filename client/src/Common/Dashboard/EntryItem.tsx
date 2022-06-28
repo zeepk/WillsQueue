@@ -98,7 +98,7 @@ export default function EntryItem({ entry }: props) {
                         ) : (
                             <Button
                                 icon="pi pi-trash"
-                                className="p-button-rounded p-button-outlined p-button-danger ml-1"
+                                className="p-button-rounded p-button-text p-button-danger ml-1"
                                 onClick={() => handleMove('archived')}
                             />
                         )}
