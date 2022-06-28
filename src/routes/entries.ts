@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { Entry } from '../models/entry';
+import { Flag } from '../models/flag';
 import { ApiResponse } from '../utils/customTypes';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -49,6 +50,18 @@ router.post('/api/entry', checkJwt, async (req: Request, res: Response) => {
         resp.message = message;
         console.error(message);
         return res.status(500).send(resp);
+    }
+
+    const queueEnabledFlag = await Flag.findOne({
+        name: 'queue-enabled',
+    });
+    if (!queueEnabledFlag?.enabled) {
+        // queue flag is disabled
+        const message = `User with username "${username}" attempted to join queue when queue is disabled`;
+        resp.message = message;
+        resp.success = false;
+        console.error(message);
+        return res.status(400).send(resp);
     }
 
     const entry = await Entry.findOne({

@@ -9,6 +9,13 @@ export type Entry = {
     updatedAt: string;
 };
 
+export type Flag = {
+    name: string;
+    enabled: boolean;
+    createdAt: string;
+    updatedAt: string;
+};
+
 export type CreateEntryRequest = {
     authId: string;
     username: string;
@@ -19,6 +26,12 @@ export type UpdateEntryRequest = {
     user: any;
     status: Status;
     username: string;
+};
+
+export type ChangeFlagRequest = {
+    user: any;
+    name: string;
+    enabled: boolean;
 };
 
 export const userUsername = 'https://willsqueue.com/username';

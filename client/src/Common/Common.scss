@@ -108,6 +108,12 @@ circle {
                 .list-title {
                     height: 6rem;
                 }
+                .queue-toggle {
+                    position: absolute;
+                    top: 1.3rem;
+                    left: 0.5rem;
+                    z-index: 1;
+                }
                 .entries-list {
                     height: calc(100% - 6rem);
                     width: 100%;
