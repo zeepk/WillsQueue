@@ -1,4 +1,3 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import { Entry } from '../../utils/constants';
 import EntryItem from './EntryItem';
 
@@ -7,8 +6,6 @@ type props = {
 };
 
 export default function Ingame({ entries }: props) {
-    const { user } = useAuth0();
-
     return (
         <div className="list pb-2 d-flex flex-column ai-center jc-between">
             <div className="list-title-container in-game">

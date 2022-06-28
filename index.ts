@@ -6,6 +6,7 @@ import { json } from 'body-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { entryRouter } from './src/routes/entries';
+import { flagRouter } from './src/routes/flags';
 import { Server } from 'socket.io';
 import http from 'http';
 dotenv.config();
@@ -36,6 +37,7 @@ app.use(json());
 app.use(cors({ origin: getCORSOrigin, credentials: true }));
 
 app.use(entryRouter);
+app.use(flagRouter);
 
 // socket.io
 const server = http.createServer(app);
@@ -44,6 +46,9 @@ const io = new Server(server);
 io.on('connection', socket => {
     socket.on('move-entry', () => {
         io.emit('fetch-entries');
+    });
+    socket.on('change-flag', () => {
+        io.emit('fetch-flags');
     });
 });
 

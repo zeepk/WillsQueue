@@ -1,5 +1,9 @@
 import requestWrapper from './utils/requestWrapper';
-import { CreateEntryRequest, UpdateEntryRequest } from './utils/constants';
+import {
+    CreateEntryRequest,
+    UpdateEntryRequest,
+    ChangeFlagRequest,
+} from './utils/constants';
 const baseUrl = process.env.REACT_APP_API_URL;
 const apiUrl = `${baseUrl}/api`;
 
@@ -44,6 +48,30 @@ export async function clearList(
 ) {
     const requestOptions = {
         url: `${apiUrl}/clear`,
+        method: 'PUT',
+        data,
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    };
+    const response = await requestWrapper(requestOptions);
+    return response.data;
+}
+
+// Flags
+
+export async function getFlags() {
+    const requestOptions = {
+        url: `${apiUrl}/flag`,
+        method: 'GET',
+    };
+    const response = await requestWrapper(requestOptions);
+    return response.data;
+}
+
+export async function changeFlag(accessToken, data: ChangeFlagRequest) {
+    const requestOptions = {
+        url: `${apiUrl}/flag`,
         method: 'PUT',
         data,
         headers: {

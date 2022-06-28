@@ -57,8 +57,8 @@ export default function EntryItem({ entry }: props) {
             toast?.current?.show({
                 severity: 'error',
                 summary: 'Error Message',
-                detail: 'Message Content',
-                life: 3000,
+                detail: 'Unable to move entry. Please contact an administrator or site owner.',
+                life: 8000,
             });
         }
         socket.emit('move-entry');
